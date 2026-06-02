@@ -68,7 +68,37 @@ def create_order(customer_id: int = Form(...), items: str = Form(...), db: Sessi
 
 @router.get("/order_list/")
 def get_orders(db: Session = Depends(get_db)):
-    return db.query(Order).all()
+    orders = db.query(Order).all()
+
+    result = []
+
+    for order in orders:
+        items = db.query(OrderItem).filter(OrderItem.order_id == order.id).all()
+
+        item_list = []
+
+        for item in items:
+            product = db.query(Product).filter(Product.id == item.product_id).first()
+
+            item_list.append({
+                "id": item.id,
+                "product_id": item.product_id,
+                "quantity": item.quantity,
+                "product": {
+                    "id": product.id,
+                    "name": product.name,
+                    "price": product.price
+                } if product else None
+            })
+
+        result.append({
+            "id": order.id,
+            "customer_id": order.customer_id,
+            "total_amount": order.total_amount,
+            "items": item_list
+        })
+
+    return result
 
 
 @router.get("/order_list/{order_id}")

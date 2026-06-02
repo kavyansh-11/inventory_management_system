@@ -40,12 +40,13 @@ def create_product(name: str = Form(...), sku: str = Form(...), price: int = For
 
 @router.get("/product_list")
 def get_products(db: Session = Depends(get_db)):
-    return db.query(Product).all()
+    products = db.query(Product).filter(Product.is_deleted == False).all()
+    return products
 
 
 @router.get("/product_list/{product_id}")
 def get_product(product_id: int, db: Session = Depends(get_db)):
-    product = db.query(Product).filter(Product.id == product_id).first()
+    product = db.query(Product).filter(Product.id == product_id, Product.is_deleted == False).first()
 
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -62,11 +63,18 @@ def update_product(product_id: int, name: Optional[str] = Form(None), sku: Optio
 
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
+    
+    if name is not None:
+        product.name = name
+    
+    if sku is not None:
+        product.sku = sku
 
-    product.name = name
-    product.sku = sku
-    product.price = price
-    product.quantity_in_stock = quantity_in_stock
+    if price is not None:
+        product.price = price
+    
+    if quantity_in_stock is not None:
+        product.quantity_in_stock = quantity_in_stock
 
     db.commit()
     db.refresh(product)
@@ -82,8 +90,8 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
 
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-
-    db.delete(product)
+    
+    product.is_deleted = True
     db.commit()
 
     return {"message": "Product deleted successfully"}

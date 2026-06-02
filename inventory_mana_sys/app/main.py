@@ -6,9 +6,21 @@ from app.api.order import router as order_router
 
 from app.db.database import engine, Base, wait_for_db
 
-import app.models   # ✅ ONLY THIS (REMOVE ALL INDIVIDUAL MODEL IMPORTS)
+import app.models
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def startup():
