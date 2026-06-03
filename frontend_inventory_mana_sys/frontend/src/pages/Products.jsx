@@ -183,36 +183,26 @@ function Products() {
         </thead>
 
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>{product.sku}</td>
-              <td>{product.price}</td>
-              <td>
-                {product.quantity_in_stock}
-              </td>
+  {products.map((product, index) => (
+    <tr key={product.id}>
+      <td>{index + 1}</td>
+      <td>{product.name}</td>
+      <td>{product.sku}</td>
+      <td>{product.price}</td>
+      <td>{product.quantity_in_stock}</td>
 
-              <td>
-                <button
-                  onClick={() =>
-                    handleEdit(product)
-                  }
-                >
-                  Edit
-                </button>
+      <td>
+        <button onClick={() => handleEdit(product)}>
+          Edit
+        </button>
 
-                <button
-                  onClick={() =>
-                    handleDelete(product.id)
-                  }
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <button onClick={() => handleDelete(product.id)}>
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
       </table>
     </div>
   );
