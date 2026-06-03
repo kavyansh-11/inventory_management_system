@@ -99,3 +99,38 @@ Marks product as deleted (`is_deleted = True`)
     "quantity": 2
   }
 ]
+
+
+
+# 🛒 Orders API Documentation
+
+## 📄 Get All Orders (Detailed View)
+**GET** `/orders/order_list/`
+
+### Description:
+Returns all orders with full details including:
+- Order info
+- Order items
+- Product details for each item
+
+### Response Structure:
+```json
+[
+  {
+    "id": 1,
+    "customer_id": 2,
+    "total_amount": 500,
+    "items": [
+      {
+        "id": 1,
+        "product_id": 3,
+        "quantity": 2,
+        "product": {
+          "id": 3,
+          "name": "Product Name",
+          "price": 250
+        }
+      }
+    ]
+  }
+]
