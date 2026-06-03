@@ -104,6 +104,7 @@ function Customers() {
         <thead>
           <tr>
             <th>ID</th>
+            <th>Customer ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -115,6 +116,7 @@ function Customers() {
   {customers.map((customer, index) => (
     <tr key={customer.id}>
       <td>{index + 1}</td>
+      <td>{customer.id}</td>
       <td>{customer.full_name}</td>
       <td>{customer.email}</td>
       <td>{customer.phone_number}</td>

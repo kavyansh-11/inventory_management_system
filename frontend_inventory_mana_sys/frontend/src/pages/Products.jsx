@@ -174,6 +174,7 @@ function Products() {
         <thead>
           <tr>
             <th>ID</th>
+            <th>Product ID</th>
             <th>Name</th>
             <th>SKU</th>
             <th>Price</th>
@@ -186,6 +187,7 @@ function Products() {
   {products.map((product, index) => (
     <tr key={product.id}>
       <td>{index + 1}</td>
+      <td>{product.id}</td>
       <td>{product.name}</td>
       <td>{product.sku}</td>
       <td>{product.price}</td>
