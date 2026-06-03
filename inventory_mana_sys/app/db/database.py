@@ -5,8 +5,11 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.exc import OperationalError
+import os
 
-DATABASE_URL = "postgresql+psycopg2://postgres:Kavyansh%40123@localhost:5432/inventory_db"
+# DATABASE_URL = "postgresql+psycopg2://postgres:Kavyansh%40123@localhost:5432/inventory_db"
+# DATABASE_URL = "postgresql+psycopg2://postgres:Kavyansh%40123@db:5432/inventory_db"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
@@ -20,14 +23,14 @@ def wait_for_db():
         try:
             conn = engine.connect()
             conn.close()
-            print("✅ DB Connected")
+            print("DB Connected")
             return
         except Exception as e:
             print("DB ERROR:", str(e))
             print(f"⏳ Waiting DB... {i+1}/10")
             time.sleep(3)
 
-    raise Exception("❌ DB not available")
+    raise Exception("DB not available")
 
 
 wait_for_db()

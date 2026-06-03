@@ -27,3 +27,7 @@ node_modules
 build
 dist
 .env
+
+node_modules
+build
+npm-debug.log

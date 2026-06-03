@@ -1,0 +1,36 @@
+services:
+
+  db:
+    image: postgres:17-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: inventory_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Kavyansh@123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./inventory_mana_sys
+    container_name: backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./inventory_mana_sys/.env
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend_inventory_mana_sys/frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+volumes:
+  postgres_data:

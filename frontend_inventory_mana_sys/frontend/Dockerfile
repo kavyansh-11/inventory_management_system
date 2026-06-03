@@ -1,5 +1,4 @@
-# Step 1: Build React app
-FROM node:18-alpine as build
+FROM node:18
 
 WORKDIR /app
 
@@ -8,15 +7,6 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+EXPOSE 3000
 
-
-# Step 2: Serve with nginx
-FROM nginx:alpine
-
-COPY --from=build /app/build /usr/share/nginx/html
-
-# optional: replace default nginx config if needed
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
