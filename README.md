@@ -1,100 +1,101 @@
-Inventory Management API (FastAPI)
+# 🛒 Inventory Management API (FastAPI)
 
-A simple REST API for managing Products, Customers, and Orders using FastAPI + SQLAlchemy.
+A simple backend system built with **FastAPI + SQLAlchemy** for managing Products, Customers, and Orders.
 
-🚀 Base Setup
-Framework: FastAPI
-DB: SQLAlchemy (SessionLocal)
-Models: Product, Customer, Order, OrderItem
-📦 Products API
-➕ Create Product
+---
 
-POST /products/create_product
+## 🚀 Tech Stack
+- FastAPI
+- SQLAlchemy
+- PostgreSQL / SQLite (any DB supported via SQLAlchemy)
+- Python 3.10+
 
-Form Data:
+---
 
-name (str)
-sku (str)
-price (int)
-quantity_in_stock (int)
-📄 Get All Products
+# 📦 Products API
 
-GET /products/product_list
+## ➕ Create Product
+**POST** `/products/create_product`
 
-Returns all non-deleted products.
+### Form Data:
+- `name` (str)
+- `sku` (str)
+- `price` (int)
+- `quantity_in_stock` (int)
 
-🔍 Get Product by ID
+---
 
-GET /products/product_list/{product_id}
+## 📄 Get All Products
+**GET** `/products/product_list`
 
-✏️ Update Product
+Returns all active (non-deleted) products.
 
-PUT /products/update_product/{product_id}
+---
 
-Optional Form Data:
+## 🔍 Get Product by ID
+**GET** `/products/product_list/{product_id}`
 
-name
-sku
-price
-quantity_in_stock
-❌ Delete Product (Soft Delete)
+---
 
-DELETE /products/delete_product/{product_id}
+## ✏️ Update Product
+**PUT** `/products/update_product/{product_id}`
 
-👤 Customers API
-➕ Create Customer
+### Optional Form Data:
+- `name`
+- `sku`
+- `price`
+- `quantity_in_stock`
 
-POST /customers/create_customer
+---
 
-Query/Form:
+## ❌ Delete Product (Soft Delete)
+**DELETE** `/products/delete_product/{product_id}`
 
-full_name
-email
-phone_number
-📄 Get All Customers
+Marks product as deleted (`is_deleted = True`)
 
-GET /customers/customer_list
+---
 
-🔍 Get Customer by ID
+# 👤 Customers API
 
-GET /customers/customer_list/{customer_id}
+## ➕ Create Customer
+**POST** `/customers/create_customer`
 
-❌ Delete Customer
+### Params:
+- `full_name`
+- `email`
+- `phone_number`
 
-DELETE /customers/delete_customer/{customer_id}
+---
 
-🛒 Orders API
-➕ Create Order
+## 📄 Get All Customers
+**GET** `/customers/customer_list`
 
-POST /orders/create_order
+---
 
-Form Data:
+## 🔍 Get Customer by ID
+**GET** `/customers/customer_list/{customer_id}`
 
-customer_id (int)
+---
 
-items (JSON string)
+## ❌ Delete Customer
+**DELETE** `/customers/delete_customer/{customer_id}`
 
+---
+
+# 🛒 Orders API
+
+## ➕ Create Order
+**POST** `/orders/create_order`
+
+### Form Data:
+- `customer_id` (int)
+- `items` (JSON string)
+
+### Example Items JSON:
+```json
 [
-  {"product_id": 1, "quantity": 2}
+  {
+    "product_id": 1,
+    "quantity": 2
+  }
 ]
-📄 Get All Orders
-
-GET /orders/order_list/
-
-Returns orders with items + product details.
-
-🔍 Get Order by ID
-
-GET /orders/order_list/{order_id}
-
-❌ Delete Order
-
-DELETE /orders/delete_order/{order_id}
-
-⚙️ Features
-SKU uniqueness check
-Email uniqueness check
-Stock validation during order creation
-Automatic stock deduction
-Soft delete for products
-Order item tracking
