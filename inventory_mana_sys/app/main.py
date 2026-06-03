@@ -1,13 +1,12 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.product import router as product_router
 from app.api.customer import router as customer_router
 from app.api.order import router as order_router
-
 from app.db.database import engine, Base, wait_for_db
 
 import app.models
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
